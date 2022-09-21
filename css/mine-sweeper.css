@@ -1,0 +1,21 @@
+body{
+    font-size: 24px;
+    font-family: monospace;
+    text-align: center;
+}
+h1{
+    font-size: 48px;
+}
+.board-container{
+    width: fit-content;
+    margin: 40px auto;
+}
+td{
+    width: 40px;
+    height: 40px;
+    background-color: gray;
+
+}
+.shown{
+    background-color: wheat;
+}
