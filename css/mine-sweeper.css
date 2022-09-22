@@ -1,26 +1,146 @@
-body{
+body {
     font-size: 24px;
     font-family: monospace;
     text-align: center;
+    box-sizing: border-box;
+    background: rgba(255, 208, 0, 0.179);
 }
-h1{
+
+h1 {
     font-size: 48px;
+    margin: 50px auto 50px;
 }
-.board-container{
+
+.main-container {
+    width: 40%;
+    margin: 0 auto;
+}
+
+.top-container {
+    position: relative;
+    background-color: rgba(255, 208, 0, 0.436);
+}
+
+.board-container {
     width: fit-content;
-    margin: 10px auto;
+    margin: 0 auto;
+    padding: 50px;
 }
-td{
+
+table {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+td {
     width: 40px;
     height: 40px;
     background-color: gray;
     cursor: pointer;
+    box-shadow: 2px 2px black;
+    border-radius: 5px;
 }
-.shown{
-    background-color: wheat;
+
+td:hover {
+    box-shadow: none;
 }
-.smily{
+
+.shown {
+    background-color: rgb(180, 180, 180);
+    box-shadow: none;
+}
+
+.smily {
     width: fit-content;
     margin: 10px auto;
+    padding-bottom: 15px;
     cursor: pointer;
+    display: inline-block;
+}
+
+.smily:hover {
+    animation: smily 1.5s ease-in-out 0s 1 normal forwards;
+}
+
+.timer {
+    height: 2em;
+    padding: 10px, 20px, 20px;
+    margin: 20px auto;
+}
+
+.mine-deco-l {
+    display: inline-block;
+    position: absolute;
+    top: 35%;
+    left: 5%;
+}
+
+.mine-deco-r {
+    display: inline-block;
+    position: absolute;
+    top: 35%;
+    right: 5%;
+}
+
+button {
+    background: rgba(255, 208, 0, 0.179);
+    font-family: monospace;
+    font-size: 24px;
+    padding: 10px;
+    margin: 20px;
+    border-radius: 4px;
+}
+
+button:hover {
+    animation: button-scale 0.2s ease-in-out 0s 1 normal forwards;
+    background-color: rgb(255, 208, 0);
+}
+
+.msg{
+    width: fit-content;
+    margin: auto;
+    padding: 20px;
+}
+.msg-shown{
+    position: relative;
+    background-color: rgba(255, 208, 0, 0.436);
+}
+
+@keyframes smily {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70% {
+        transform: translateY(-4px);
+    }
+
+    20%,
+    40%,
+    60% {
+        transform: translateY(4px);
+    }
+
+    80% {
+        transform: translateY(3.4px);
+    }
+
+    90% {
+        transform: translateY(-3.4px);
+    }
+}
+
+@keyframes button-scale {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.1);
+    }
 }

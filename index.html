@@ -6,21 +6,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/mine-sweeper.css">
-    <title>Mine Sweep</title>
+    <title>Mine Sweeper</title>
 </head>
 
 <body onload="init()">
-    <h1>Mine Sweep</h1>
-    <div class="timer"><span></span></div>
-    <div class="smily"></div>
-    <div class="board-container">
-        <table>
-            <tbody>
-        
-            </tbody>
-        </table>
+    <div class="main-container">
+
+        <h1>Mine Sweeper</h1>
+        <div class="levels">
+            <button class="level1" onclick="setLevel(4, 2)">level 1</button>
+            <button class="level2" onclick="setLevel(8, 14)">level 2</button>
+            <button class="level3" onclick="setLevel(12, 32)"> level 3</button>
+        </div>
+          <div class="top-container">
+              <div class="timer"><span></span></div>
+              <div class="mine-deco-l">💥</div>
+              <div class="smily" onclick="restartGame()"></div>
+              <div class="mine-deco-r">💥</div>
+          </div>
+        <div class="board-container">
+            <table>
+                <tbody>
+            
+                </tbody>
+            </table>
+        </div>
+        <div class="msg"></div>
     </div>
-    <div class="msg"></div>
 
     <script src="js/util.js"></script>
     <script src="js/mine-sweeper.js"></script>
