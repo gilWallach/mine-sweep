@@ -8,14 +8,19 @@ h1{
 }
 .board-container{
     width: fit-content;
-    margin: 40px auto;
+    margin: 10px auto;
 }
 td{
     width: 40px;
     height: 40px;
     background-color: gray;
-
+    cursor: pointer;
 }
 .shown{
     background-color: wheat;
+}
+.smily{
+    width: fit-content;
+    margin: 10px auto;
+    cursor: pointer;
 }

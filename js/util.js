@@ -28,7 +28,7 @@ function countMinesAround(board, rowIdx, colIdx) {
 }
 
 function revealNegs(board, rowIdx, colIdx) {
-
+    var negs = []
     for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
         if (i < 0 || i >= board.length) continue
 
@@ -36,27 +36,27 @@ function revealNegs(board, rowIdx, colIdx) {
 
             if (j < 0 || j >= board[i].length) continue
             if (i === rowIdx && j === colIdx) continue
-
-            var currCell = board[i][j]
-            // console.log('currCell: ', currCell)
-
+            // update the model
+            if (gBoard[i][j].isShown === false) {
+                gBoard[i][j].isShown = true
+                negs.push(board[i][j])
+            }
+            // update the DOM
             var selector = `[data-i="${i}"][data-j="${j}"]`
             var elCell = document.querySelector(selector)
 
-            gBoard[i][j].isShown = true
-            gGame.shownCount++
-
             if (gBoard[i][j].minesAroundCount !== 0) {
-                // elCell.innerText = ''
                 elCell.innerText = `${gBoard[i][j].minesAroundCount}`
             }
-            if (gBoard[i][j].isShown) elCell.classList.add('shown')
+            if (gBoard[i][j].isShown) {
+                elCell.classList.add('shown')
+            }
         }
     }
+    gGame.shownCount += negs.length
 }
 
-
-function resetgGame(){
+function resetgGame() {
     return gGame = {
         isOn: false,
         shownCount: 0,
