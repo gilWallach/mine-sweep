@@ -35,35 +35,27 @@ function createBoard(size) {
     for (var i = 0; i < size; i++) {
         mat[i] = []
         for (var j = 0; j < size; j++) {
-            var isMine = false
-            mat[i].push(createCell(isMine))
-
-            if ((i === 3 && j === 2) || (i === 1 && j === 0)) {
-                isMine = true
-                mat[i][j] = createCell(isMine)
-            }
-
-            // TODO: fix rndIdx for mine cells + adapt for levels
-            // for(var k = 0; k <gLevel.MINES; k++){
-            //     var rndI = getRandomIntInclusive(0, size - 1)
-            //     var rndJ = getRandomIntInclusive(0, size - 1)
-            //     if(i === rndI && j === rndJ){
-            //         isMine = true
-            //         mat[i][j] = createCell(isMine)
-            //     }
-            // }
-
+            mat[i].push(createCell(false))
         }
     }
+    addMines(mat)
     return mat
+}
+
+function addMines(mat) {
+    //TODO: find out why on bigger board it generates gLeve.size - 1 mines??? (can't win on bigger boards)
+    for (var k = 0; k < gLevel.MINES; k++) {
+        var rndI = getRandomIntInclusive(0, gLevel.SIZE - 1)
+        var rndJ = getRandomIntInclusive(0, gLevel.SIZE - 1)
+
+        mat[rndI][rndJ] = createCell(true)
+    }
 }
 
 function setMinesNegsCount(board) {
     for (var i = 0; i < board.length; i++) {
         for (var j = 0; j < board[0].length; j++) {
             var minesAroundCount = countMinesAround(board, i, j)
-            // console.log('minesAroundCount', minesAroundCount)
-
             var currCell = board[i][j]
 
             if (minesAroundCount !== 0) currCell.minesAroundCount += minesAroundCount
@@ -80,7 +72,8 @@ function renderBoard(board) {
 
         for (var j = 0; j < board[0].length; j++) {
             var dataAttribStr = `data-i="${i}" data-j="${j}"`
-            strHTML += `\t<td class="cell" onClick="cellClicked(this, ${i}, ${j})" oncontextmenu="cellMarked(this, ${i}, ${j})" ${dataAttribStr}></td>\n`
+            strHTML += `\t<td class="cell" onClick="cellClicked(this, ${i}, ${j})" 
+            oncontextmenu="cellMarked(this, ${i}, ${j})" ${dataAttribStr}></td>\n`
         }
         strHTML += '\n</tr>\n'
     }
@@ -148,7 +141,7 @@ function cellMarked(elCell, i, j) {
             elCell.innerText = `${FLAG}`
             e.preventDefault();
         }, false)
-    } 
+    }
     // if cell is already marked
     else {
         // Update the model
@@ -173,27 +166,27 @@ function checkGameOver() {
 
         gGame.isOn = false
         clearInterval(gtimerInterval)
-        
+
         // Update the DOM
         msg = 'You Win!'
         gSmily = '😎'
         elMsg.innerText = msg
         document.querySelector('.smily').innerText = gSmily
-        // elMsg.classList.add('msg-shown')
+        elMsg.classList.add('msg-shown')
     }
     // Lose
     else if (gGame.gameLost) {
         // Update the model
         gGame.isOn = false
         clearInterval(gtimerInterval)
-        
+
         // Update the DOM
         msg = 'You Lose...'
         gSmily = '🤯'
         elMsg.innerText = msg
-        
+
         document.querySelector('.smily').innerText = gSmily
-        // elMsg.classList.add('msg-shown')
+        elMsg.classList.add('msg-shown')
     }
 }
 
@@ -203,6 +196,7 @@ function restartGame() {
     init()
 
     document.querySelector('.msg').innerText = ''
+    document.querySelector('.msg').classList.remove('msg-shown')
 }
 
 function showTimer() {

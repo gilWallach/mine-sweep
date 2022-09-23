@@ -19,6 +19,7 @@ h1 {
 .top-container {
     position: relative;
     background-color: rgba(255, 208, 0, 0.436);
+    border-radius: 4px;
 }
 
 .board-container {
@@ -104,6 +105,8 @@ button:hover {
 .msg-shown{
     position: relative;
     background-color: rgba(255, 208, 0, 0.436);
+    border-radius: 4px;
+
 }
 
 @keyframes smily {
