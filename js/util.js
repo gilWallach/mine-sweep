@@ -1,10 +1,50 @@
 'use strict'
+
+function createBoard(size) {
+    var mat = []
+
+    for (var i = 0; i < size; i++) {
+        mat[i] = []
+        for (var j = 0; j < size; j++) {
+            mat[i].push(createCell(false))
+        }
+    }
+    return mat
+}
+
 function createCell(isMine) {
-    return {
+    var cell
+    return cell = {
         minesAroundCount: 0,
         isShown: false,
         isMine: isMine,
         isMarked: false
+    }
+}
+
+function addMines(mat, i, j) {
+    for (var k = 0; k < gLevel.MINES; k++) {
+        var rndI = getRandomIntInclusive(0, gLevel.SIZE - 1)
+        var rndJ = getRandomIntInclusive(0, gLevel.SIZE - 1)
+        var rndIdxIsNeg = isNeg(i, j, rndI, rndJ)
+
+        if (!mat[rndI][rndJ].isShown &&
+            !mat[rndI][rndJ].isMine &&
+            rndIdxIsNeg === false) {
+            mat[rndI][rndJ].isMine = true
+        } else k--
+    }
+}
+
+function setMinesNegsCount(board) {
+    for (var i = 0; i < board.length; i++) {
+        for (var j = 0; j < board[0].length; j++) {
+            var minesAroundCount = countMinesAround(board, i, j)
+            var currCell = board[i][j]
+
+            if (minesAroundCount !== 0)
+                currCell.minesAroundCount += minesAroundCount
+        }
     }
 }
 
@@ -20,17 +60,45 @@ function countMinesAround(board, rowIdx, colIdx) {
             if (i === rowIdx && j === colIdx) continue
 
             var currCell = board[i][j]
-            // console.log('currCell: ', currCell)
             if (currCell.isMine === true) minesCount++
         }
     }
     return minesCount
 }
 
+function showTimer() {
+    if (gGame.isOn) {
+        var timer = document.querySelector('.timer span')
+        var start = Date.now()
+
+        gtimerInterval = setInterval(function () {
+            var currTs = Date.now()
+
+            var secs = parseInt((currTs - start) / 1000)
+            var ms = (currTs - start) - secs * 1000
+            ms = '000' + ms
+            ms = ms.substring(ms.length - 3, ms.length)
+
+            timer.innerText = `\n ${secs}:${ms}`
+        }, 100)
+    }
+}
+
+function isNeg(cellI, cellJ, negI, negJ) {
+    if ((negI === cellI + 1 && negJ === cellJ) ||
+        (negI === cellI + 1 && negJ === cellJ + 1) ||
+        (negI === cellI + 1 && negJ === cellJ - 1) ||
+        (negI === cellI && negJ === cellJ + 1) ||
+        (negI === cellI && negJ === cellJ - 1) ||
+        (negI === cellI - 1 && negJ === cellJ) ||
+        (negI === cellI - 1 && negJ === cellJ + 1) ||
+        (negI === cellI - 1 && negJ === cellJ - 1)) return true
+        else return false
+}
+
 function setLevel(size, amountOfMines) {
     gLevel.SIZE = size
     gLevel.MINES = amountOfMines
-    console.log(gLevel)
     init()
 }
 
@@ -38,11 +106,12 @@ function setLevel(size, amountOfMines) {
 function resetgGame() {
     return gGame = {
         isOn: false,
+        gameLost: false,
+        gameWon: false,
         shownCount: 0,
         markedCount: 0,
         secsPassed: 0,
-        gameLost: false
-
+        lives: 3
     }
 }
 

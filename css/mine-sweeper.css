@@ -69,17 +69,18 @@ td:hover {
     margin: 20px auto;
 }
 
-.mine-deco-l {
+.hints {
     display: inline-block;
     position: absolute;
-    top: 35%;
+    top: 5%;
     left: 5%;
+    cursor: pointer;
 }
 
-.mine-deco-r {
+.hearts {
     display: inline-block;
     position: absolute;
-    top: 35%;
+    top: 5%;
     right: 5%;
 }
 
@@ -107,6 +108,9 @@ button:hover {
     background-color: rgba(255, 208, 0, 0.436);
     border-radius: 4px;
 
+}
+.red-bg{
+    background-color: rgba(255, 0, 0, 0.476);
 }
 
 @keyframes smily {
