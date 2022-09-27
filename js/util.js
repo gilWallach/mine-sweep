@@ -79,7 +79,7 @@ function showTimer() {
             ms = '000' + ms
             ms = ms.substring(ms.length - 3, ms.length)
 
-            timer.innerText = `\n ${secs}:${ms}`
+            timer.innerText = `${secs}.${ms}`
         }, 100)
     }
 }
@@ -93,12 +93,27 @@ function isNeg(cellI, cellJ, negI, negJ) {
         (negI === cellI - 1 && negJ === cellJ) ||
         (negI === cellI - 1 && negJ === cellJ + 1) ||
         (negI === cellI - 1 && negJ === cellJ - 1)) return true
-        else return false
+    else return false
 }
 
 function setLevel(size, amountOfMines) {
     gLevel.SIZE = size
     gLevel.MINES = amountOfMines
+    
+    // set highscore per level
+    if (size === 4) {
+        console.log('gHighscoreLvl1', gHighscoreLvl1)
+        document.querySelector('.highscore span').innerText = `${gHighscoreLvl1} 🏆`
+    }
+    else if (size === 8) {
+        console.log('gHighscoreLvl2', gHighscoreLvl2)
+        document.querySelector('.highscore span').innerText = `${gHighscoreLvl2} 🏆`
+    }
+    else if (size === 12) {
+        console.log('gHighscoreLvl3', gHighscoreLvl3)
+        document.querySelector('.highscore span').innerText = `${gHighscoreLvl3} 🏆`
+    }
+
     init()
 }
 

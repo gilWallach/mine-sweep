@@ -9,6 +9,10 @@ var gBoard
 var gSmily
 var gtimerInterval
 
+var gHighscoreLvl1 = localStorage.getItem('highscoreLvl1')
+var gHighscoreLvl2 = localStorage.getItem('highscoreLvl2')
+var gHighscoreLvl3 = localStorage.getItem('highscoreLvl3')
+
 var gLevel = {
     SIZE: 4,
     MINES: 2
@@ -18,9 +22,11 @@ var gGame = {
     isOn: false,
     gameLost: false,
     gameWon: false,
+
     shownCount: 0,
     markedCount: 0,
     secsPassed: 0,
+
     lives: 3,
     isHint: false,
     hintsCount: 3
@@ -107,25 +113,24 @@ function cellClicked(elCell, i, j) {
             // player still has lives
             else {
                 // if isHint === false
-                if(!gGame.isHint){
+                if (!gGame.isHint) {
                     //update the model
                     gGame.lives--
                     elCell.isMarked = true
-                    console.log('elCell.isMarked', elCell.isMarked)
                     gGame.markedCount++
-    
+
                     // // Update the DOM
                     elCell.innerText = MINE
                     var elMsg = document.querySelector('.msg')
                     elMsg.classList.add('red-bg')
                     elMsg.innerText = `You stepped on a mine! be careful \n You have ${gGame.lives} lives`
-                    
+
                     setTimeout(() => {
                         elMsg.innerText = ''
                         elMsg.classList.remove('red-bg')
-    
-                    }, 2000)
-    
+
+                    }, 1000)
+
                     document.querySelector('.hearts').innerText = ''
                     for (var i = 0; i < gGame.lives; i++) {
                         document.querySelector('.hearts').innerText += `${LIFE}`
@@ -183,6 +188,7 @@ function checkGameOver() {
         // Update the model
         gGame.gameWon = true
         gGame.isOn = false
+        setHighscore()
         clearInterval(gtimerInterval)
 
         // Update the DOM
@@ -249,7 +255,7 @@ function expandShown(board, i, j) {
             if (gBoard[i][j].minesAroundCount !== 0) {
                 elneg.innerText = `${gBoard[i][j].minesAroundCount}`
             }
-            if(gBoard[i][j].isMine){
+            if (gBoard[i][j].isMine) {
                 elneg.innerText = `${MINE}`
             }
             if (gBoard[i][j].isShown) {
@@ -267,8 +273,6 @@ function showHints(board, i, j) {
         if (i < 0 || i >= board.length) continue
 
         for (var j = colIdx - 1; j <= colIdx + 1; j++) {
-            var negs = []
-
             if (j < 0 || j >= board[i].length) continue
             if (i === rowIdx && j === colIdx) continue
 
@@ -280,12 +284,10 @@ function showHints(board, i, j) {
                 elneg.innerText = `${gBoard[i][j].minesAroundCount}`
             } else elneg.innerText = ''
 
-            if(gBoard[i][j].isMine){
+            if (gBoard[i][j].isMine) {
                 elneg.innerText = `${MINE}`
             }
-            if (gBoard[i][j].isShown) {
-                elneg.classList.add('shown')
-            }
+            elneg.classList.add('shown')
         }
     }
 }
@@ -304,8 +306,8 @@ function hideHints(board, i, j) {
             // update the DOM
             var selector = `[data-i="${i}"][data-j="${j}"]`
             var elneg = document.querySelector(selector)
-            
-            if(!board[i][j].isShown || !board[i][j].isMarked){
+            if (board[i][j].isShown || board[i][j].isMarked) continue
+            else {
                 elneg.innerText = ''
                 elneg.classList.remove('shown')
             }
@@ -325,5 +327,78 @@ function hintActive(i, j) {
     }
 }
 
+function setHighscore() {
+    // store cuurent round's timing in gGame.secsPassed
+    gGame.secsPassed = document.querySelector('.timer span').innerText
+    
+    if (gLevel.SIZE === 4) {
+        document.querySelector('.highscore span').innerText = `${gHighscoreLvl1} 🏆`
 
-// fix: when hint is hidden it also hides the mines that were revealed before
+        if (+gGame.secsPassed < +gHighscoreLvl1) {
+            // update the model
+            localStorage.setItem('highscoreLvl1', `${gGame.secsPassed}`)
+            gHighscoreLvl1 = localStorage.getItem('highscoreLvl1')
+            
+            //update the DOM
+            document.querySelector('.highscore span').innerText = `${gHighscoreLvl1} 🏆`
+        }
+    }
+    else if (gLevel.SIZE === 8) {
+        document.querySelector('.highscore span').innerText = `${gHighscoreLvl2} 🏆`
+
+        if (+gGame.secsPassed < +gHighscoreLvl2) {
+            // update the model
+            localStorage.setItem('highscoreLvl2', `${gGame.secsPassed}`)
+            gHighscoreLvl2 = localStorage.getItem('highscoreLvl2')
+
+            //update the DOM
+            document.querySelector('.highscore span').innerText = `${gHighscoreLvl2} 🏆`
+        }
+    }
+
+    else if (gLevel.SIZE === 12) {
+        document.querySelector('.highscore span').innerText = `${gHighscoreLvl3} 🏆`
+
+        if (+gGame.secsPassed < +gHighscoreLvl3) {
+            // update the model
+            localStorage.setItem('highscoreLvl3', `${gGame.secsPassed}`)
+            gHighscoreLvl3 = localStorage.getItem('highscoreLvl3')
+
+            //update the DOM
+            document.querySelector('.highscore span').innerText = `${gHighscoreLvl3} 🏆`
+        }
+    }
+}
+
+// sure there's a more efficient way
+// function setHighscore() {
+//     // store cuurent round's timing in gGame.secsPassed
+//     gGame.secsPassed = document.querySelector('.timer span').innerText
+    
+//     if (gLevel.SIZE === 4) {
+//         highscoreByLevel(1)
+//     }
+//     else if (gLevel.SIZE === 8) {
+//         highscoreByLevel(2)
+//     }
+
+//     else if (gLevel.SIZE === 12) {
+//         highscoreByLevel(3)
+
+//     }
+// }
+
+// function highscoreByLevel(level){
+//     var currLvlHighscore = 'gHighscoreLvl' + level
+//     console.log(currLvlHighscore)
+//     document.querySelector('.highscore span').innerText = `${currLvlHighscore} 🏆`
+
+//     if (+gGame.secsPassed < +currLvlHighscore) {
+//         // update the model
+//         localStorage.setItem(`${currLvlHighscore}`, `${gGame.secsPassed}`)
+//         currLvlHighscore = localStorage.getItem(`${currLvlHighscore}`)
+
+//         //update the DOM
+//         document.querySelector('.highscore span').innerText = `${currLvlHighscore} 🏆`
+//     }
+// }

@@ -113,6 +113,34 @@ button:hover {
     background-color: rgba(255, 0, 0, 0.476);
 }
 
+.highscore{
+    width: 100%;
+    margin: 20px auto;
+    padding: 10px 0;
+    background-color: rgba(0, 255, 115, 0.276);
+}
+
+.safe-click-div{
+    display: inline-block;
+    position: absolute;
+    top: 25%;
+    left: 0;
+    cursor: pointer; 
+}
+.safe-click-btn{
+    background-color: rgba(0, 255, 208, 0.276);
+    font-size: 16px;
+    margin: 20px 10px 0 10px;
+    padding: 5px;
+}
+
+.safe-click-btn:hover{
+    background-color: rgba(0, 255, 208, 0.548);
+}
+.safe-clicks-count{
+    font-size: 14px;
+    margin: 10px;
+}
 @keyframes smily {
 
     0%,
