@@ -29,7 +29,8 @@ var gGame = {
 
     lives: 3,
     isHint: false,
-    hintsCount: 3
+    hintsCount: 3,
+    safeClicksCount: 3,
 }
 
 function init() {
@@ -62,7 +63,9 @@ function cellClicked(elCell, i, j) {
     elCell.classList.add('shown')
     if (!gGame.isOn && !gGame.gameLost ||
         !gGame.isOn && !gGame.gameWon) {
+
         gBoard[i][j].isShown = true
+
         gGame.isOn = true
         gGame.shownCount++
         addMines(gBoard, i, j)
@@ -223,9 +226,15 @@ function restartGame() {
 
     // reset DOM
     document.querySelector('.hearts').innerText = `${LIFE}${LIFE}${LIFE}`
+
     document.querySelector('.msg').innerText = ''
     document.querySelector('.msg').classList.remove('msg-shown')
+
     document.querySelector('.hints').innerText = `Hints: ${HINT}${HINT}${HINT}`
+    
+    document.querySelector('.safe-clicks-count span').innerText = gGame.safeClicksCount
+    document.querySelector('.safe-click-btn').classList.remove('unavailable')
+
 }
 
 function expandShown(board, i, j) {
@@ -306,6 +315,7 @@ function hideHints(board, i, j) {
             // update the DOM
             var selector = `[data-i="${i}"][data-j="${j}"]`
             var elneg = document.querySelector(selector)
+            console.log(elneg)
             if (board[i][j].isShown || board[i][j].isMarked) continue
             else {
                 elneg.innerText = ''
@@ -330,7 +340,7 @@ function hintActive(i, j) {
 function setHighscore() {
     // store cuurent round's timing in gGame.secsPassed
     gGame.secsPassed = document.querySelector('.timer span').innerText
-    
+
     if (gLevel.SIZE === 4) {
         document.querySelector('.highscore span').innerText = `${gHighscoreLvl1} 🏆`
 
@@ -338,7 +348,7 @@ function setHighscore() {
             // update the model
             localStorage.setItem('highscoreLvl1', `${gGame.secsPassed}`)
             gHighscoreLvl1 = localStorage.getItem('highscoreLvl1')
-            
+
             //update the DOM
             document.querySelector('.highscore span').innerText = `${gHighscoreLvl1} 🏆`
         }
@@ -374,7 +384,7 @@ function setHighscore() {
 // function setHighscore() {
 //     // store cuurent round's timing in gGame.secsPassed
 //     gGame.secsPassed = document.querySelector('.timer span').innerText
-    
+
 //     if (gLevel.SIZE === 4) {
 //         highscoreByLevel(1)
 //     }
@@ -402,3 +412,41 @@ function setHighscore() {
 //         document.querySelector('.highscore span').innerText = `${currLvlHighscore} 🏆`
 //     }
 // }
+
+function safeClick(board) {
+    if (gGame.safeClicksCount !== 0) {
+        //update the model
+        var isSafeActive = false
+        gGame.safeClicksCount--
+
+        // update the DOM
+        document.querySelector('.safe-clicks-count span').innerText = gGame.safeClicksCount
+        while (isSafeActive === false) {
+            var rndJ = getRandomIntInclusive(0, gLevel.SIZE - 1)
+            var rndI = getRandomIntInclusive(0, gLevel.SIZE - 1)
+
+            if (board[rndI][rndJ].isMine === false &&
+                board[rndI][rndJ].isShown === false &&
+                board[rndI][rndJ].isMarked === false) {
+
+                var selector = `[data-i="${rndI}"][data-j="${rndJ}"]`
+                var safeCell = document.querySelector(selector)
+                console.log(safeCell)
+                safeCell.classList.add('safe')
+
+                isSafeActive = true
+            }
+        }
+        setTimeout(() => {
+            safeCell.classList.remove('safe')
+            document.querySelector('.safe-click-btn').classList.add('unavailable')
+        }, 2000)
+
+    }
+}
+
+function toggleDisplayMode(){
+    document.querySelector('body').classList.toggle('dark-mode')
+    document.querySelector('.highscore').classList.toggle('highscore-dark-mode')
+    document.querySelector('.top-container').classList.toggle('top-container-dark-mode')
+}

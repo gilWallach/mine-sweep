@@ -6,6 +6,11 @@ body {
     background: rgba(255, 208, 0, 0.179);
 }
 
+.dark-mode {
+    background: rgba(0, 18, 78, 0.846);
+    /* color: rgba(92, 109, 164, 0.846); */
+}
+
 h1 {
     font-size: 48px;
     margin: 50px auto 50px;
@@ -20,6 +25,10 @@ h1 {
     position: relative;
     background-color: rgba(255, 208, 0, 0.436);
     border-radius: 4px;
+}
+.top-container-dark-mode{
+    background: rgba(0, 18, 78, 0.846);
+    color: rgba(92, 109, 164, 0.846);
 }
 
 .board-container {
@@ -72,7 +81,7 @@ td:hover {
 .hints {
     display: inline-block;
     position: absolute;
-    top: 5%;
+    top: 25%;
     left: 5%;
     cursor: pointer;
 }
@@ -80,7 +89,7 @@ td:hover {
 .hearts {
     display: inline-block;
     position: absolute;
-    top: 5%;
+    top: 25%;
     right: 5%;
 }
 
@@ -95,52 +104,91 @@ button {
 
 button:hover {
     animation: button-scale 0.2s ease-in-out 0s 1 normal forwards;
-    background-color: rgb(255, 208, 0);
+    /* background-color: rgb(255, 208, 0); */
 }
 
-.msg{
+.msg {
     width: fit-content;
     margin: auto;
     padding: 20px;
 }
-.msg-shown{
-    position: relative;
-    background-color: rgba(255, 208, 0, 0.436);
-    border-radius: 4px;
 
+.msg-shown {
+    position: relative;
+    border: 4px solid rgba(255, 208, 0, 0.554);
+    border-radius: 4px;
 }
-.red-bg{
+
+.red-bg {
     background-color: rgba(255, 0, 0, 0.476);
 }
 
-.highscore{
+.highscore {
     width: 100%;
     margin: 20px auto;
     padding: 10px 0;
-    background-color: rgba(0, 255, 115, 0.276);
+    background-color: rgba(255, 208, 0, 0.554);
 }
 
-.safe-click-div{
+.highscore-dark-mode {
+    background-color: rgba(0, 18, 78, 0.846);
+    color: rgba(92, 109, 164, 0.846);
+}
+
+.safe-click-div {
     display: inline-block;
     position: absolute;
-    top: 25%;
+    top: 50%;
     left: 0;
-    cursor: pointer; 
 }
-.safe-click-btn{
+
+.safe-click-btn {
     background-color: rgba(0, 255, 208, 0.276);
     font-size: 16px;
     margin: 20px 10px 0 10px;
     padding: 5px;
+    cursor: pointer;
 }
 
-.safe-click-btn:hover{
+.safe-click-btn:hover {
     background-color: rgba(0, 255, 208, 0.548);
 }
-.safe-clicks-count{
+
+.safe-clicks-count {
     font-size: 14px;
     margin: 10px;
+    cursor: default;
 }
+
+.safe {
+    background-color: rgba(0, 255, 208, 0.276);
+}
+
+.unavailable {
+    background-color: rgba(0, 255, 208, 0);
+    cursor: default;
+}
+
+.unavailable:hover {
+    animation: none;
+    background-color: rgba(0, 255, 208, 0);
+}
+
+.dark-mode-btn {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    font-size: 16px;
+    margin: 20px 10px 0 10px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.dark-mode-btn:hover {
+    background-color: rgba(0, 25, 114, 0.819);
+    color: rgb(255, 208, 0);
+}
+
 @keyframes smily {
 
     0%,

@@ -18,16 +18,17 @@
             <button class="level2" onclick="setLevel(8, 14)">level 2</button>
             <button class="level3" onclick="setLevel(12, 32)"> level 3</button>
         </div>
-        <div class="highscore">Highscore: <span></span></div>
-          <div class="top-container">
+        <div class="top-container">
+              <div class="highscore">Highscore: <span></span></div>
               <div class="timer"><span></span></div>
               <div onclick="hintActive()" class="hints">Hints: 💡💡💡</div>
-              <!-- <div class="safe-click-div">
-                  <button onclick="safeClick()" class="safe-click-btn">Safe Click</button>
+              <div class="safe-click-div">
+                  <button onclick="safeClick(gBoard)" class="safe-click-btn">Safe Click</button>
                 <p class="safe-clicks-count"><span>3</span> Safe Clicks left</p>
-              </div> -->
+              </div>
               <div class="smily" onclick="restartGame()"></div>
               <div class="hearts">💗💗💗</div>
+              <button onclick="toggleDisplayMode()" class="dark-mode-btn">Dark Mode</button>
           </div>
         <div class="board-container">
             <table>

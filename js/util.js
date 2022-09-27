@@ -102,15 +102,12 @@ function setLevel(size, amountOfMines) {
     
     // set highscore per level
     if (size === 4) {
-        console.log('gHighscoreLvl1', gHighscoreLvl1)
         document.querySelector('.highscore span').innerText = `${gHighscoreLvl1} 🏆`
     }
     else if (size === 8) {
-        console.log('gHighscoreLvl2', gHighscoreLvl2)
         document.querySelector('.highscore span').innerText = `${gHighscoreLvl2} 🏆`
     }
     else if (size === 12) {
-        console.log('gHighscoreLvl3', gHighscoreLvl3)
         document.querySelector('.highscore span').innerText = `${gHighscoreLvl3} 🏆`
     }
 
@@ -126,7 +123,11 @@ function resetgGame() {
         shownCount: 0,
         markedCount: 0,
         secsPassed: 0,
-        lives: 3
+        lives: 3,
+        isHint: false,
+        hintsCount: 3,
+        safeClicksCount: 3,
+
     }
 }
 
